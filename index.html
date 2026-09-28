@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>大阪行 出國前準備清單</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3F6FA; --card:#FFFFFF; --ink:#1C2B4A; --muted:#5E6B82; --line:#D5DDE8;
+  --stamp:#C73E3A; --field:#EEF2F8; --soft:#E4EAF3;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1628; --card:#172039; --ink:#E6ECF5; --muted:#9AA6BD; --line:#2C3858;
+    --stamp:#E36A64; --field:#1F2A47; --soft:#223052;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1628; --card:#172039; --ink:#E6ECF5; --muted:#9AA6BD; --line:#2C3858;
+  --stamp:#E36A64; --field:#1F2A47; --soft:#223052;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;padding:24px 16px 64px}
+
+/* boarding pass header */
+.pass{background:var(--ink);color:var(--paper);border-radius:14px;overflow:hidden;position:relative}
+.pass-top{padding:20px 22px 16px}
+.pass h1{margin:0 0 14px;font-size:15px;font-weight:500;letter-spacing:.04em;opacity:.8}
+.legs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.leg .route{font-weight:900;font-size:clamp(28px,8vw,40px);line-height:1;letter-spacing:.02em}
+.leg .route .ap{font:inherit;opacity:1;margin:0;vertical-align:0}
+.leg .route span:not(.ap){font-weight:400;opacity:.5;margin:0 .2em;font-size:.7em;vertical-align:.12em}
+.leg .meta{font-size:13px;opacity:.75;margin-top:6px}
+.perf{height:0;border-top:2px dashed color-mix(in srgb,var(--paper) 35%,transparent);margin:0 14px;position:relative}
+.perf::before,.perf::after{content:"";position:absolute;top:-11px;width:20px;height:20px;border-radius:50%;background:var(--paper)}
+.perf::before{left:-24px}.perf::after{right:-24px}
+.pass-bottom{padding:14px 22px 18px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;justify-content:space-between}
+.owner{display:flex;align-items:center;gap:8px;flex:1 1 220px}
+.owner label{font-size:13px;opacity:.75;white-space:nowrap}
+.owner input{flex:1;min-width:0;background:transparent;border:0;border-bottom:1px solid color-mix(in srgb,var(--paper) 45%,transparent);
+  color:var(--paper);font:inherit;font-weight:700;padding:4px 2px}
+.owner input::placeholder{color:color-mix(in srgb,var(--paper) 45%,transparent);font-weight:400}
+.owner input:focus{outline:none;border-bottom-color:var(--paper)}
+.count{font-size:13px;opacity:.8;text-align:right}
+.count b{font-size:22px;opacity:1;font-weight:900}
+.bar{height:6px;background:color-mix(in srgb,var(--paper) 18%,transparent)}
+.bar i{display:block;height:100%;width:0;background:var(--stamp);transition:width .3s}
+
+.note{font-size:13px;color:var(--muted);margin:14px 4px 0}
+
+/* sections */
+section{margin-top:28px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:0 4px 8px;border-bottom:2px solid var(--ink)}
+.sec-head h2{margin:0;font-size:20px;font-weight:900}
+.sec-head .n{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+ul{list-style:none;margin:0;padding:0}
+li.item{display:grid;grid-template-columns:32px 1fr auto;gap:4px 10px;padding:14px 4px;border-bottom:1px solid var(--line);align-items:start}
+.box{appearance:none;-webkit-appearance:none;margin:2px 0 0;width:24px;height:24px;border:2px solid var(--muted);border-radius:6px;
+  background:var(--card);cursor:pointer;display:grid;place-content:center;position:relative}
+.box:focus-visible{outline:3px solid var(--stamp);outline-offset:2px}
+.box:checked{border-color:var(--stamp);background:var(--stamp)}
+.box:checked::after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:translateY(-1px) rotate(45deg)}
+.body{min-width:0}
+.t{font-weight:500;cursor:pointer}
+.hint{font-size:13px;color:var(--muted);margin-top:2px}
+.done .t{color:var(--muted);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--muted) 60%,transparent)}
+.stamp{width:40px;height:40px;border:2px solid var(--stamp);border-radius:50%;color:var(--stamp);
+  display:grid;place-content:center;font-weight:900;font-size:17px;transform:rotate(-14deg) scale(.4);opacity:0;
+  transition:transform .22s cubic-bezier(.3,1.6,.5,1),opacity .15s;pointer-events:none;margin-top:-6px}
+.done .stamp{opacity:.9;transform:rotate(-14deg) scale(1)}
+@media (prefers-reduced-motion: reduce){.stamp,.bar i{transition:none}}
+
+.fields{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.f{display:flex;align-items:center;gap:6px;background:var(--field);border-radius:8px;padding:4px 10px;font-size:14px;max-width:100%}
+.f span{color:var(--muted);white-space:nowrap}
+.f input{background:transparent;border:0;font:inherit;color:var(--ink);min-width:0;width:9em;padding:4px 0}
+.f input.wide{width:16em}
+.f input.sm{width:5.5em}
+.f input[type=date],.f input[type=time]{width:auto;color-scheme:light dark}
+.f input:focus{outline:none}
+.f:focus-within{box-shadow:0 0 0 2px var(--stamp)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:14px;border-radius:999px;padding:4px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip:focus-visible{outline:3px solid var(--stamp);outline-offset:2px}
+.sub{list-style:none;margin:10px 0 0;padding:4px 0 0 12px;border-left:2px solid var(--stamp)}
+.sub li{display:grid;grid-template-columns:26px 1fr;gap:2px 8px;padding:6px 0;align-items:start}
+.sub .box{width:20px;height:20px}
+.sub .box:checked::after{width:5px;height:9px}
+.sub .done .t{color:var(--muted);text-decoration:line-through}
+.chip.local{font-size:13px;padding:2px 10px}
+.chip.local[aria-pressed="true"]{background:var(--stamp);border-color:var(--stamp);color:#fff}
+.del{background:none;border:0;color:var(--muted);font:inherit;font-size:13px;cursor:pointer;padding:2px 0;margin-top:4px}
+.del:hover{color:var(--stamp)}
+
+.add{display:flex;gap:8px;padding:12px 4px}
+.add input{flex:1;min-width:0;background:var(--field);border:0;border-radius:8px;padding:10px 12px;font:inherit;color:var(--ink)}
+.add input:focus{outline:2px solid var(--stamp)}
+.add button,.reset{background:var(--ink);color:var(--paper);border:0;border-radius:8px;padding:0 16px;font:inherit;font-weight:700;cursor:pointer;white-space:nowrap}
+.add button:focus-visible,.reset:focus-visible{outline:3px solid var(--stamp);outline-offset:2px}
+footer{margin-top:40px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+.reset{background:transparent;color:var(--muted);border:1.5px solid var(--line);padding:8px 14px;font-weight:500}
+
+.tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 4px 0}
+.pdfbtn{background:var(--stamp);color:#fff;border:0;border-radius:8px;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer}
+.pdfbtn:disabled{opacity:.6;cursor:progress}
+.pdfbtn:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+#pdfmsg{font-size:13px;color:var(--muted)}
+/* export pages (rendered offscreen, always light) */
+#px{position:fixed;left:-10000px;top:0;width:794px}
+.pp{width:794px;height:1123px;background:#fff;color:#1C2B4A;padding:48px 52px;overflow:hidden;
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;font-size:14px;line-height:1.5}
+.pp .ph{border-bottom:3px solid #1C2B4A;padding-bottom:10px;margin-bottom:6px}
+.pp .ph h1{margin:0;font-size:24px;font-weight:900}
+.pp .ph .who{font-size:14px;color:#5E6B82;margin-top:4px}
+.pp .fl{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 4px}
+.pp .fl div{border:1.5px solid #1C2B4A;border-radius:8px;padding:8px 12px}
+.pp .fl b{display:block;font-size:18px;font-weight:900}
+.pp .fl span{font-size:12.5px;color:#5E6B82}
+.pp .sh{font-size:17px;font-weight:900;margin:18px 0 4px;padding-bottom:4px;border-bottom:1.5px solid #1C2B4A}
+.pp .it{display:grid;grid-template-columns:22px 1fr;gap:8px;padding:7px 0;border-bottom:1px solid #D5DDE8}
+.pp .it.sub{margin-left:30px;border-bottom:0;padding:3px 0}
+.pp .bx{width:16px;height:16px;border:1.5px solid #5E6B82;border-radius:3px;margin-top:2px;display:grid;place-content:center;
+  font-size:11px;font-weight:900;color:#fff;line-height:1}
+.pp .bx.on{background:#C73E3A;border-color:#C73E3A}
+.pp .tt{font-weight:500}
+.pp .tag{display:inline-block;font-size:11px;color:#C73E3A;border:1px solid #C73E3A;border-radius:99px;padding:0 6px;margin-left:6px;vertical-align:1px}
+.pp .hn{font-size:12px;color:#5E6B82}
+.pp .vs{font-size:12.5px;margin-top:2px}
+.pp .vs span{margin-right:14px;white-space:nowrap}
+.pp .vs i{font-style:normal;display:inline-block;min-width:90px;border-bottom:1px solid #9AA6BD;padding:0 4px}
+.pp .pf{position:absolute}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="pass">
+    <div class="pass-top">
+      <h1>大阪行 出國前準備清單</h1>
+      <div class="legs">
+        <div class="leg"><div class="route"><span class="ap" id="h-out-from">TPE</span><span>→</span>KIX</div><div class="meta" id="h-out">去程：在下方填你的航班</div></div>
+        <div class="leg"><div class="route">KIX<span>→</span><span class="ap" id="h-ret-to">TPE</span></div><div class="meta" id="h-ret">回程：在下方填你的航班</div></div>
+      </div>
+    </div>
+    <div class="perf"></div>
+    <div class="pass-bottom">
+      <div class="owner"><label for="owner">這份是</label><input id="owner" placeholder="輸入你的名字" autocomplete="off"></div>
+      <div class="count"><b id="done">0</b> / <span id="total">0</span> 完成<br><span id="countdown"></span></div>
+    </div>
+    <div class="bar"><i id="bar"></i></div>
+  </header>
+  <div class="tools"><button class="pdfbtn" id="pdf" hidden>輸出成 PDF</button><span id="pdfmsg" role="status"></span></div>
+  <p class="note">每個人打開這個連結都會拿到自己的一份，勾選和填寫的內容只存在你自己的瀏覽器裡，不會影響別人。</p>
+
+  <main id="list"></main>
+
+  <footer>
+    <span>換手機或清除瀏覽器資料後，勾選紀錄會消失。</span>
+    <button class="reset" id="reset">清空我的勾選</button>
+  </footer>
+</div>
+<div id="px" aria-hidden="true"></div>
+
+<script>
+const DATA = [
+  {id:"doc", title:"證件與預訂", items:[
+    {id:"passport", t:"護照", hint:"效期要涵蓋整趟旅程，建議還有 6 個月以上", fields:[{k:"exp",label:"到期日",ph:"YYYY/MM/DD"}]},
+    {id:"vjw", t:"填好 Visit Japan Web", hint:"入境審查＋海關申報，完成後截圖 QR code 存手機"},
+    {id:"fout", t:"去程航班", hint:"大家搭不同班機，各自填好自己的", fields:[
+      {k:"date",label:"日期",type:"date"},{k:"no",label:"航班",ph:"航班號碼",cls:"sm"},
+      {k:"from",label:"出發機場",ph:"TPE／TSA／KHH",cls:"sm"},{k:"term",label:"航廈",ph:"例：T1",cls:"sm"},
+      {k:"dep",label:"起飛",type:"time"},{k:"arr",label:"抵達",type:"time"}]},
+    {id:"fret", t:"回程航班", fields:[
+      {k:"date",label:"日期",type:"date"},{k:"no",label:"航班",ph:"航班號碼",cls:"sm"},
+      {k:"to",label:"抵達機場",ph:"TPE／TSA／KHH",cls:"sm"},{k:"term",label:"關西航廈",ph:"例：T1",cls:"sm"},
+      {k:"dep",label:"起飛",type:"time"},{k:"arr",label:"抵達",type:"time"}]},
+    {id:"checkin", t:"線上報到、選位", hint:"通常起飛前 24～48 小時開放"},
+    {id:"stay", t:"住宿資訊存離線", hint:"住宿地址、入住和退房時間、聯絡方式存在手機裡"},
+    {id:"usj", t:"環球影城門票", hint:"門票／快速通關 QR code 存好，下載官方 App 看設施等待時間"},
+    {id:"tl", t:"其他景點門票、預約憑證", hint:"截圖存手機，注意入場時段"},
+    {id:"copy", t:"證件備份", hint:"護照照片頁拍照存雲端，另帶兩張大頭照備用"}
+  ]},
+  {id:"money", title:"錢", items:[
+    {id:"jpy", t:"換日幣現金", hint:"寺社、小店、置物櫃常只收現金", fields:[{k:"amt",label:"金額 ¥",ph:"例：50,000"}]},
+    {id:"card", t:"信用卡", hint:"開啟海外刷卡、確認海外回饋，帶兩張不同發卡組織的卡備用", fields:[{k:"which",label:"帶哪幾張",ph:"",wide:true}]},
+    {id:"ic", t:"交通 IC 卡（ICOCA／Suica）", hint:"iPhone 可直接在 Apple Wallet 新增，出發前先儲值"},
+    {id:"coin", t:"零錢包", hint:"日本硬幣多，一個獨立零錢包會輕鬆很多"},
+    {id:"twd", t:"留一點台幣", hint:"回台灣搭機捷或計程車用"},
+    {id:"tax", t:"退稅記得帶護照正本", hint:"購物退稅要出示護照，不接受影本"}
+  ]},
+  {id:"net", title:"網路", items:[
+    {id:"nettype", t:"選好上網方式", hint:"選了之後會出現要確認的事項", choice:["eSIM","漫遊","兩者都用","Wi‑Fi 機"],
+      fields:[{k:"plan",label:"方案／流量",ph:"例：7 天 20GB",wide:true}],
+      sub:{
+        "eSIM":["esimok","esimbuy","esiminst"],
+        "漫遊":["roamapply","roamcheck"],
+        "兩者都用":["esimok","esimbuy","esiminst","roamapply","roamcheck","both"],
+        "Wi‑Fi 機":["wifibook","wifipick"]
+      }},
+    {id:"maps", t:"下載離線地圖", hint:"Google 地圖下載大阪、京都範圍"},
+    {id:"apps", t:"裝好常用 App", hint:"轉乘查詢、翻譯（可拍照翻譯）、Tabelog"},
+    {id:"group", t:"建好旅伴群組", hint:"分享即時位置，分開行動時比較放心"}
+  ]},
+  {id:"ins", title:"保險", items:[
+    {id:"buy", t:"投保旅遊保險", hint:"下面三種可以勾選你有保的", fields:[
+      {k:"co",label:"保險公司",ph:"保險公司名稱",wide:true},{k:"amt",label:"旅平保額",ph:"例：1000 萬"},{k:"no",label:"保單號碼",ph:""}],
+      subFixed:["pa","medical","delay"]},
+    {id:"cardins", t:"確認信用卡附加險", hint:"多數要用該卡刷機票才生效"},
+    {id:"policy", t:"保單和理賠電話存手機"}
+  ]},
+  {id:"bag", title:"行李", items:[
+    {id:"size", t:"行李箱", hint:"先確認航空公司托運和手提的重量限制", fields:[{k:"air",label:"航空公司",ph:"航空公司名稱"},{k:"size",label:"尺寸",ph:"例：26 吋"},{k:"kg",label:"限重",ph:"例：23kg"}]},
+    {id:"space", t:"預留戰利品空間", hint:"帶摺疊袋或空一半，回程才裝得下"},
+    {id:"clothes", local:1, t:"衣物", hint:"10 月大阪白天約 20 度出頭、早晚涼，洋蔥式穿搭加一件薄外套"},
+    {id:"shoes", local:1, t:"好走的鞋", hint:"環球影城一天會走很多路"},
+    {id:"toilet", local:1, t:"盥洗用品", hint:"民宿、公寓備品不一定齊，自己帶比較保險"},
+    {id:"meds", local:1, t:"常備藥品", hint:"感冒、腸胃、止痛、個人用藥"},
+    {id:"power", t:"行動電源放手提", hint:"不能托運，機上能否使用依航空公司規定"},
+    {id:"charge", local:1, t:"充電器、傳輸線", hint:"日本插頭和台灣一樣，一般不用轉接頭"},
+    {id:"liquid", t:"液體 100ml 以下才能手提"},
+    {id:"rain", local:1, t:"雨具", hint:"摺疊傘或輕便雨衣"},
+    {id:"ecobag", local:1, t:"環保購物袋", hint:"日本超商塑膠袋要收費"},
+    {id:"meat", t:"不帶肉類製品入境", hint:"肉乾、肉鬆、含肉的泡麵都不能帶進日本"}
+  ]},
+  {id:"last", title:"出發前一天", items:[
+    {id:"airport", t:"決定去機場的方式", hint:"建議起飛前 2.5 小時到機場", fields:[{k:"how",label:"怎麼去",ph:"例：機捷",wide:true}]},
+    {id:"charge2", t:"手機、行動電源充飽"},
+    {id:"home", t:"家裡水電瓦斯、門窗檢查"},
+    {id:"family", t:"行程和住宿地址給家人"}
+  ]}
+];
+
+const SUB = {
+  esimok:{t:"手機支援 eSIM 嗎？", hint:"設定 → 一般 → 關於本機，有「數字 eSIM」或 EID 就支援；也要確認手機沒有鎖電信商"},
+  esimbuy:{t:"買好 eSIM", hint:"確認天數涵蓋整趟、是否可分享熱點"},
+  esiminst:{t:"出發前在台灣裝好設定檔", hint:"安裝需要網路，落地後再開啟日本線路和漫遊數據"},
+  roamapply:{t:"向電信商申請漫遊", hint:"可用電信 App 或門市辦理，記下生效時間"},
+  roamcheck:{t:"確認計費方式", hint:"是按天還是按量、吃到飽有沒有降速門檻"},
+  both:{t:"設定好主要上網用哪條線", hint:"數據用 eSIM、台灣門號留著收簡訊驗證碼，記得關掉台灣門號的數據漫遊"},
+  pa:{t:"旅平險",hint:"意外身故、失能及意外醫療"},
+  medical:{t:"海外突發疾病",hint:"日本看病自費很貴，這項很值得加"},
+  delay:{t:"旅遊不便險",hint:"班機延誤、行李延誤或遺失"},
+  wifibook:{t:"預約 Wi‑Fi 機", hint:"確認一台給幾個人用，大家分開行動時就不能共用"},
+  wifipick:{t:"確認取機和還機地點", hint:"機場櫃台營業時間，回程時間太早要注意"}
+};
+
+const KEY = "osaka-checklist-v1";
+let S = {name:"",checks:{},vals:{},choice:{},custom:{},local:{}};
+try{ const raw = localStorage.getItem(KEY); if(raw) S = Object.assign(S, JSON.parse(raw)); }catch(e){}
+S.local = S.local || {};
+const isDone = id => !!(S.checks[id] || S.local[id]);
+const subList = (it,id) => it.subFixed || (it.sub && it.sub[S.choice[id]]) || null;
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function itemHTML(it, secId, custom){
+  const id = secId + "." + it.id;
+  const loc = !!S.local[id];
+  const done = isDone(id);
+  let extra = "";
+  if(it.choice){
+    extra += `<div class="chips" role="group" aria-label="${esc(it.t)}">` + it.choice.map(c =>
+      `<button class="chip" data-choice="${id}" data-v="${esc(c)}" aria-pressed="${S.choice[id]===c}">${esc(c)}</button>`).join("") + `</div>`;
+  }
+  if(it.fields){
+    extra += `<div class="fields">` + it.fields.map(f =>
+      `<label class="f"><span>${esc(f.label)}</span><input type="${f.type||'text'}" class="${f.wide?'wide':''} ${f.cls||''}" data-val="${id}.${f.k}" placeholder="${esc(f.ph||'')}" value="${esc(S.vals[id+'.'+f.k]||'')}"></label>`).join("") + `</div>`;
+  }
+  const sl = subList(it,id);
+  if(sl){
+    extra += `<ul class="sub">` + sl.map(k => { const sid = id+"."+k; const d = !!S.checks[sid];
+      return `<li class="${d?'done':''}"><input type="checkbox" class="box" id="c-${sid}" data-check="${sid}" ${d?'checked':''}>
+      <div><label class="t" for="c-${sid}">${esc(SUB[k].t)}</label><div class="hint">${esc(SUB[k].hint)}</div></div></li>`; }).join("") + `</ul>`;
+  }
+  if(it.local || (custom && secId==="bag")) extra += `<div class="chips"><button class="chip local" data-local="${id}" aria-pressed="${loc}">當地購入</button></div>`;
+  if(custom) extra += `<button class="del" data-del="${secId}" data-id="${it.id}">刪除這項</button>`;
+  return `<li class="item ${done?'done':''}" data-id="${id}">
+    <input type="checkbox" class="box" id="c-${id}" data-check="${id}" ${done?'checked':''}>
+    <div class="body"><label class="t" for="c-${id}">${esc(it.t)}</label>${it.hint?`<div class="hint">${esc(it.hint)}</div>`:''}${extra}</div>
+    <div class="stamp" aria-hidden="true">${loc?'買':'済'}</div>
+  </li>`;
+}
+
+function render(){
+  $("#list").innerHTML = DATA.map(sec => {
+    const custom = S.custom[sec.id] || [];
+    return `<section>
+      <div class="sec-head"><h2>${sec.title}</h2><span class="n" data-n="${sec.id}"></span></div>
+      <ul>${sec.items.map(it=>itemHTML(it,sec.id,false)).join("")}${custom.map(it=>itemHTML(it,sec.id,true)).join("")}</ul>
+      <form class="add" data-add="${sec.id}"><input placeholder="新增自己的項目…" aria-label="新增到${sec.title}"><button type="submit">新增</button></form>
+    </section>`;
+  }).join("");
+  $("#owner").value = S.name || "";
+  header(); stats();
+}
+
+function header(){
+  const g = k => (S.vals[k]||"").trim();
+  const md = d => { if(!d) return ""; const x = new Date(d+"T00:00"); return `${x.getMonth()+1}/${x.getDate()}（${"日一二三四五六"[x.getDay()]}）`; };
+  const line = (p, label) => {
+    const parts = [md(g(p+".date")), g(p+".no").toUpperCase(), g(p+".dep") && (g(p+".dep") + (g(p+".arr") ? "–"+g(p+".arr") : ""))].filter(Boolean);
+    return parts.length ? label+"　"+parts.join("　") : label+"：在下方填你的航班";
+  };
+  $("#h-out").textContent = line("doc.fout","去程");
+  $("#h-ret").textContent = line("doc.fret","回程");
+  $("#h-out-from").textContent = g("doc.fout.from").toUpperCase() || "TPE";
+  $("#h-ret-to").textContent = g("doc.fret.to").toUpperCase() || "TPE";
+}
+
+function stats(){
+  let all=0, d=0;
+  DATA.forEach(sec=>{
+    const subs = [];
+    sec.items.forEach(i=>{ const id=sec.id+"."+i.id; const sl=subList(i,id); if(sl) sl.forEach(k=>subs.push(id+"."+k)); });
+    const ids = sec.items.map(i=>sec.id+"."+i.id).concat(subs).concat((S.custom[sec.id]||[]).map(i=>sec.id+"."+i.id));
+    const n = ids.filter(isDone).length;
+    all += ids.length; d += n;
+    const el = document.querySelector(`[data-n="${sec.id}"]`); if(el) el.textContent = `${n} / ${ids.length}`;
+  });
+  $("#done").textContent = d; $("#total").textContent = all;
+  $("#bar").style.width = all ? (d/all*100)+"%" : "0";
+  const od = S.vals["doc.fout.date"]; if(!od){ $("#countdown").textContent = "填入去程日期後開始倒數"; return; }
+  const dep = new Date(od+"T00:00");
+  const days = Math.ceil((dep - new Date().setHours(0,0,0,0)) / 864e5);
+  $("#countdown").textContent = days > 0 ? `距離出發 ${days} 天` : days === 0 ? "今天出發！" : "旅程已開始";
+}
+
+document.addEventListener("change", e=>{
+  const c = e.target.dataset.check;
+  if(c){ S.checks[c] = e.target.checked; if(!e.target.checked) delete S.checks[c];
+    e.target.closest("li").classList.toggle("done", isDone(c)); save(); stats(); }
+});
+document.addEventListener("input", e=>{
+  const v = e.target.dataset.val;
+  if(v){ S.vals[v] = e.target.value; save(); if(v.startsWith("doc.f")) header(); }
+  if(e.target.id==="owner"){ S.name = e.target.value; save(); }
+});
+document.addEventListener("click", e=>{
+  const ch = e.target.closest("[data-choice]");
+  if(ch){ const id = ch.dataset.choice;
+    S.choice[id] = S.choice[id]===ch.dataset.v ? undefined : ch.dataset.v; save();
+    const v = ch.dataset.v; render();
+    const b = document.querySelector(`[data-choice="${id}"][data-v="${v}"]`); if(b) b.focus();
+  }
+  const lc = e.target.closest("[data-local]");
+  if(lc){ const id = lc.dataset.local; if(S.local[id]) delete S.local[id]; else S.local[id] = true; save(); render();
+    const b = document.querySelector(`[data-local="${id}"]`); if(b) b.focus(); }
+  const del = e.target.closest("[data-del]");
+  if(del){ const s = del.dataset.del;
+    S.custom[s] = (S.custom[s]||[]).filter(i=>i.id!==del.dataset.id);
+    delete S.checks[s+"."+del.dataset.id]; delete S.local[s+"."+del.dataset.id]; save(); render(); }
+});
+document.addEventListener("submit", e=>{
+  const s = e.target.dataset.add; if(!s) return;
+  e.preventDefault();
+  const inp = e.target.querySelector("input"); const t = inp.value.trim(); if(!t) return;
+  (S.custom[s] = S.custom[s]||[]).push({id:"u"+Date.now(), t}); save(); render();
+  const f = document.querySelector(`[data-add="${s}"] input`); if(f) f.focus();
+});
+$("#reset").addEventListener("click", ()=>{
+  if(confirm("確定要清空你的勾選、填寫內容和自訂項目嗎？")){ S = {name:S.name,checks:{},vals:{},choice:{},custom:{},local:{}}; save(); render(); }
+});
+render();
+
+/* ---------- PDF export ---------- */
+function loadScript(src){ return new Promise((ok,no)=>{ const t=document.createElement("script"); t.src=src; t.onload=ok; t.onerror=()=>no(new Error("load")); document.head.appendChild(t); }); }
+async function libs(){
+  if(!window.html2canvas) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js");
+  if(!(window.jspdf && window.jspdf.jsPDF)) await loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
+}
+function pxBlocks(){
+  const g = k => (S.vals[k]||"").trim();
+  const md = d => { if(!d) return ""; const x=new Date(d+"T00:00"); return `${x.getMonth()+1}/${x.getDate()}（${"日一二三四五六"[x.getDay()]}）`; };
+  const fl = (p,a,b,label) => {
+    const from = p==="doc.fout" ? (g(p+".from").toUpperCase()||"TPE")+" → KIX" : "KIX → "+(g(p+".to").toUpperCase()||"TPE");
+    const info = [md(g(p+".date")), g(p+".no").toUpperCase(), g(p+".dep") && g(p+".dep")+(g(p+".arr")?"–"+g(p+".arr"):"")].filter(Boolean).join("　") || "＿＿＿＿＿＿＿＿";
+    return `<div><span>${label}</span><b>${esc(from)}</b><span>${esc(info)}</span></div>`;
+  };
+  const today = new Date(); 
+  const blocks = [`<div class="ph"><h1>大阪行 出國前準備清單</h1><div class="who">${S.name?esc(S.name)+" 的清單":"姓名：＿＿＿＿＿＿"}　・　輸出日期 ${today.getFullYear()}/${today.getMonth()+1}/${today.getDate()}　・　完成 ${$("#done").textContent} / ${$("#total").textContent}</div></div>
+    <div class="fl">${fl("doc.fout",0,0,"去程")}${fl("doc.fret",0,0,"回程")}</div>`];
+  const row = (id, it, cls) => {
+    const loc = !!S.local[id], on = isDone(id);
+    let vs = "";
+    if(it.fields) vs = `<div class="vs">` + it.fields.map(f=>{ const v=(S.vals[id+"."+f.k]||"").trim(); return `<span>${esc(f.label)}：<i>${esc(v)}</i></span>`; }).join("") + `</div>`;
+    let ch = it.choice ? `<div class="vs">${it.choice.map(c=>(S.choice[id]===c?"■ ":"□ ")+esc(c)).join("　")}</div>` : "";
+    return `<div class="it ${cls||''}"><div class="bx ${on?'on':''}">${on?(loc?'買':'✓'):''}</div><div><div class="tt">${esc(it.t)}${loc?'<span class="tag">當地購入</span>':''}</div>${it.hint?`<div class="hn">${esc(it.hint)}</div>`:''}${ch}${vs}</div></div>`;
+  };
+  DATA.forEach(sec=>{
+    blocks.push(`<div class="sh">${esc(sec.title)}</div>`);
+    const all = sec.items.map(it=>[it,false]).concat((S.custom[sec.id]||[]).map(it=>[it,true]));
+    all.forEach(([it])=>{
+      const id = sec.id+"."+it.id;
+      blocks.push(row(id,it));
+      const sl = subList(it,id);
+      if(sl) sl.forEach(k=>blocks.push(row(id+"."+k, SUB[k], "sub")));
+    });
+  });
+  return blocks;
+}
+async function exportPDF(downloads){
+  const btn=$("#pdf"), msg=$("#pdfmsg");
+  btn.disabled=true; msg.textContent="正在產生 PDF…";
+  const px=$("#px");
+  try{
+    await libs();
+    if(document.fonts && document.fonts.ready) await document.fonts.ready;
+    px.innerHTML=""; const pages=[];
+    const newPage=()=>{ const p=document.createElement("div"); p.className="pp"; px.appendChild(p); pages.push(p); return p; };
+    let page=newPage();
+    for(const html of pxBlocks()){
+      const t=document.createElement("template"); t.innerHTML=html.trim();
+      const nodes=[...t.content.childNodes]; nodes.forEach(n=>page.appendChild(n));
+      if(page.scrollHeight>1123 && page.childNodes.length>nodes.length){
+        nodes.forEach(n=>n.remove()); page=newPage(); nodes.forEach(n=>page.appendChild(n));
+      }
+    }
+    pages.forEach((p,i)=>{ const f=document.createElement("div"); f.style.cssText="position:absolute;right:52px;bottom:24px;font-size:11px;color:#9AA6BD"; f.textContent=`${i+1} / ${pages.length}`; p.style.position="relative"; p.appendChild(f); });
+    const pdf=new window.jspdf.jsPDF({unit:"mm",format:"a4",orientation:"p"});
+    for(let i=0;i<pages.length;i++){
+      const c=await html2canvas(pages[i],{scale:2,backgroundColor:"#ffffff",logging:false});
+      if(i) pdf.addPage();
+      pdf.addImage(c.toDataURL("image/jpeg",0.9),"JPEG",0,0,210,297);
+    }
+    const blob=pdf.output("blob");
+    const name = "大阪行準備清單" + (S.name ? "_"+S.name.trim() : "") + ".pdf";
+    msg.textContent="";
+    await downloads.save({filename:name, data:blob});
+    msg.textContent="已輸出 PDF";
+  }catch(e){
+    const code=e && e.code;
+    msg.textContent = code==="declined" ? "" : code==="rate_limited" ? "已經有一個儲存視窗開著，請先處理它" :
+      e && e.message==="load" ? "PDF 工具載入失敗，請確認網路後再試一次" : "這裡暫時無法輸出 PDF";
+  }finally{ px.innerHTML=""; btn.disabled=false; }
+}
+(async()=>{
+  try{
+    const local = {save: async ({filename,data})=>{ const u=URL.createObjectURL(data); const a=document.createElement("a");
+      a.href=u; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),10000); return {status:"saved"}; }};
+    const downloads = window.claude && window.claude.use ? (await window.claude.use("downloads")) || local : local;
+    if(!downloads) return;
+    const btn=$("#pdf"); btn.hidden=false;
+    btn.addEventListener("click", ()=>exportPDF(downloads));
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
