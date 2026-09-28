@@ -85,7 +85,14 @@ li.item{display:grid;grid-template-columns:32px 1fr auto;gap:4px 10px;padding:14
 .f input{background:transparent;border:0;font:inherit;color:var(--ink);min-width:0;width:9em;padding:4px 0}
 .f input.wide{width:16em}
 .f input.sm{width:5.5em}
-.f input[type=date],.f input[type=time]{width:auto;color-scheme:light dark}
+.f input{font-size:16px}
+.f input[type=date],.f input[type=time]{-webkit-appearance:none;appearance:none;width:auto;min-width:8.5em;min-height:1.9em;
+  line-height:1.9em;display:inline-block;color-scheme:light dark;cursor:pointer}
+.f input[type=time]{min-width:5.5em}
+.f input::-webkit-date-and-time-value{text-align:left;min-height:1.5em}
+.f input.empty:not(:focus)::-webkit-datetime-edit{color:var(--muted)}
+.leg{cursor:pointer;border-radius:8px}
+.leg:focus-visible{outline:2px solid var(--paper);outline-offset:4px}
 .f input:focus{outline:none}
 .f:focus-within{box-shadow:0 0 0 2px var(--stamp)}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
@@ -147,8 +154,8 @@ footer{margin-top:40px;display:flex;justify-content:space-between;align-items:ce
     <div class="pass-top">
       <h1>大阪行 出國前準備清單</h1>
       <div class="legs">
-        <div class="leg"><div class="route"><span class="ap" id="h-out-from">TPE</span><span>→</span>KIX</div><div class="meta" id="h-out">去程：在下方填你的航班</div></div>
-        <div class="leg"><div class="route">KIX<span>→</span><span class="ap" id="h-ret-to">TPE</span></div><div class="meta" id="h-ret">回程：在下方填你的航班</div></div>
+        <div class="leg" role="button" tabindex="0" data-jump="doc.fout.date"><div class="route"><span class="ap" id="h-out-from">TPE</span><span>→</span>KIX</div><div class="meta" id="h-out">去程：點這裡填你的航班</div></div>
+        <div class="leg" role="button" tabindex="0" data-jump="doc.fret.date"><div class="route">KIX<span>→</span><span class="ap" id="h-ret-to">TPE</span></div><div class="meta" id="h-ret">回程：點這裡填你的航班</div></div>
       </div>
     </div>
     <div class="perf"></div>
@@ -310,7 +317,7 @@ function header(){
   const md = d => { if(!d) return ""; const x = new Date(d+"T00:00"); return `${x.getMonth()+1}/${x.getDate()}（${"日一二三四五六"[x.getDay()]}）`; };
   const line = (p, label) => {
     const parts = [md(g(p+".date")), g(p+".no").toUpperCase(), g(p+".dep") && (g(p+".dep") + (g(p+".arr") ? "–"+g(p+".arr") : ""))].filter(Boolean);
-    return parts.length ? label+"　"+parts.join("　") : label+"：在下方填你的航班";
+    return parts.length ? label+"　"+parts.join("　") : label+"：點這裡填你的航班";
   };
   $("#h-out").textContent = line("doc.fout","去程");
   $("#h-ret").textContent = line("doc.fret","回程");
@@ -343,10 +350,14 @@ document.addEventListener("change", e=>{
 });
 document.addEventListener("input", e=>{
   const v = e.target.dataset.val;
-  if(v){ S.vals[v] = e.target.value; save(); if(v.startsWith("doc.f")) header(); }
+  if(v){ S.vals[v] = e.target.value; save(); if(v.startsWith("doc.f")){ header(); stats(); } }
   if(e.target.id==="owner"){ S.name = e.target.value; save(); }
 });
+function jump(k){ const el=document.querySelector(`[data-val="${k}"]`); if(!el) return;
+  el.scrollIntoView({behavior:"smooth",block:"center"}); setTimeout(()=>{ try{ el.focus(); if(el.showPicker) el.showPicker(); }catch(e){} },350); }
+document.addEventListener("keydown", e=>{ const j=e.target.closest && e.target.closest("[data-jump]"); if(j && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); jump(j.dataset.jump); } });
 document.addEventListener("click", e=>{
+  const j = e.target.closest("[data-jump]"); if(j){ jump(j.dataset.jump); return; }
   const ch = e.target.closest("[data-choice]");
   if(ch){ const id = ch.dataset.choice;
     S.choice[id] = S.choice[id]===ch.dataset.v ? undefined : ch.dataset.v; save();
